@@ -1,0 +1,33 @@
+apiVersion: dcc.dev/v0alpha1
+kind: IncidentPacket
+metadata:
+  incidentId: inc-2026-184
+  workflowId: wf-482
+spec:
+  state: CONTAINED
+  firstDivergence: entitlement-regression-gate
+  lastVerifiedCheckpoint: eligibility-decision-v8
+  blastRadius:
+    affectedSystems:
+      - customer-db
+      - entitlement-api
+    downstreamOperationsPrevented:
+      - publish-policy-event
+      - send-customer-notification
+  mutations:
+    committed: 2
+    compensated: 1
+    unresolved: 1
+  unresolvedInvariants:
+    - external_entitlement_matches_approved_policy
+  safeNextActions:
+    - query_external_state
+    - compensate_external_entitlement
+    - escalate_to_operator
+  evidence:
+    - plan-v4
+    - database-before-v13
+    - database-after-v14
+    - api-request-76
+    - api-response-77
+    - entitlement-diff-22

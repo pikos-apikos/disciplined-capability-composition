@@ -1,0 +1,26 @@
+apiVersion: dcc.dev/v0alpha1
+kind: ModelExecutionProfile
+metadata:
+  name: provider-a-model-x-v17
+spec:
+  provider: provider-a
+  modelFamily: model-x
+  modelVersion: model-x-2026-06-18
+  endpointType: responses
+  processingRegion: eu
+  parameters:
+    temperature: 0
+    reasoningLevel: medium
+    maxOutputTokens: 12000
+  promptHash: sha256:replace-me
+  toolSchemaHashes:
+    - sha256:replace-me
+  privacy:
+    maximumClassification: PSEUDONYMIZED_PII
+    rawPayloadLogging: forbidden
+  qualifications:
+    - capability: generate-repository-patch
+      contractVersion: 1.0.0
+      status: approved
+      evaluationSuite: repo-patch-evals-7
+      riskClasses: [low, medium]

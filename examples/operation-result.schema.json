@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcc.dev/schemas/operation-result.json",
+  "title": "OperationResult",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["status", "data", "evidence"],
+      "properties": {
+        "status": { "const": "completed" },
+        "data": {},
+        "evidence": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["status", "reason", "missingInputs"],
+      "properties": {
+        "status": { "const": "blocked" },
+        "reason": { "type": "string", "minLength": 1 },
+        "missingInputs": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["status", "failureType", "retryable", "diagnostics"],
+      "properties": {
+        "status": { "const": "failed" },
+        "failureType": {
+          "enum": [
+            "FORMAT_ERROR",
+            "SCHEMA_ERROR",
+            "SEMANTIC_INCOMPLETE",
+            "SEMANTIC_CONTRADICTION",
+            "CONTEXT_FAILURE",
+            "CAPABILITY_FAILURE",
+            "POLICY_FAILURE"
+          ]
+        },
+        "retryable": { "type": "boolean" },
+        "diagnostics": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

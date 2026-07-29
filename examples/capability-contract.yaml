@@ -1,0 +1,40 @@
+apiVersion: dcc.dev/v0alpha1
+kind: CapabilityContract
+metadata:
+  name: generate-repository-patch
+  version: 1.0.0
+spec:
+  purpose: Produce a minimal candidate patch from an approved plan
+  riskClass: medium
+  inputs:
+    - type: ApprovedPlan
+    - type: RepositorySnapshot
+  outputs:
+    completed: PatchArtifact
+    blocked: MissingInputReport
+    failed: ClassifiedFailure
+  permissions:
+    tools:
+      allow:
+        - repository.read
+        - patch.propose
+      deny:
+        - network.*
+        - repository.push
+        - production.*
+  semanticContract:
+    postconditions:
+      - project_compiles
+      - changed_paths_are_allowed
+      - relevant_tests_pass
+    evidence:
+      - compiler_report
+      - changed_file_manifest
+      - test_report
+  execution:
+    maxAttempts: 1
+    maxOutputTokens: 12000
+  modelPolicy:
+    approvedProfiles:
+      - provider-a/model-x/version-17
+    terminalBehavior: MODEL_CAPABILITY_UNAVAILABLE

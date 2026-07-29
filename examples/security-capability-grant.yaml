@@ -1,0 +1,21 @@
+apiVersion: dcc.dev/v0alpha1
+kind: CapabilityGrant
+metadata:
+  id: grant-9281
+spec:
+  principal:
+    workflow: wf-482
+    operation: summarize-support-email
+  resource:
+    type: gmail_thread
+    ids:
+      - thread-882
+  permissions:
+    - read
+  restrictions:
+    attachments: false
+    externalNetwork: false
+    maximumMessages: 20
+  purpose: support_case_summary
+  expiresInSeconds: 90
+  singleUse: true
